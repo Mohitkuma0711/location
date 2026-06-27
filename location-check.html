@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Location Check</title>
+</head>
+<body>
+  <h2>Location Check</h2>
+  <p id="result"></p>
+
+  <script>
+    // Auto fetch IP-based location on page load
+    fetch("http://ip-api.com/json/")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").innerText =
+          `IP: ${data.query} | City: ${data.city} | Region: ${data.regionName}`;
+      });
+
+    // Auto attempt GPS location (browser will ask permission)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        document.getElementById("result").innerText +=
+          ` | Lat: ${lat}, Lon: ${lon}`;
+      });
+    }
+  </script>
+</body>
+</html>
